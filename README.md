@@ -5,6 +5,8 @@ Makul : Web Service<br><br>
 
 Daftar file :<br>
 <ol>
-<li>cuacainfo.php untuk menampilkan kondisi cuaca di daerah Mugassari dengan memanggil file json di wunderground.com</li>
-<li>style.css merupakan file tambahan untuk tampilan jam/waktu</li>
+<li>cuacainfo.php untuk menampilkan kondisi cuaca di daerah Mugassari 12 jam kedepan dengan memanggil file json di wunderground.com</li>
+<li>cuacainfo1minggu.php untuk menampilkan kondisi cuaca di daerah Mugassari 1 minggu kedepan dengan memanggil file json di wunderground.com</li>
+<li>style.css merupakan file tambahan untuk tampilan tabel</li>
+<li>style2.css merupakan file tambahan untuk tampilan jam/waktu</li>
 </ol>
