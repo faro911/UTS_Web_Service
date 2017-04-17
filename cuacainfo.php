@@ -1,74 +1,60 @@
 <html>
-	<head>
+<head>
 	<title>WFo</title>
-	<h2 align=center>Weather Forecast to Campus Unisbank</h2><br>		
-	</head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
 
-<body> :
-<link type="text/css" rel="stylesheet" href="style.css" /><center>
-<div id="clockDisplay" class="clockStyle">
-
-</div>
-<script type="text/javascript" language="javascript">
-function renderTime(){
- var currentTime = new Date();
- var h = currentTime.getHours();
- var m = currentTime.getMinutes();
- var s = currentTime.getSeconds();
- if (h == 0){
-  h = 24;
-   }
-   if (h < 10){
-    h = "0" + h;
-    }
-    if (m < 10){
-    m = "0" + m;
-    }
-    if (s < 10){
-    s = "0" + s;
-    }
- var myClock = document.getElementById('clockDisplay');
- myClock.textContent = h + ":" + m + ":" + s + "";    
- setTimeout ('renderTime()',1000);
- }
- renderTime();
-</script>	
-
-<div align=left>
 
 <?php
-    $json_string = file_get_contents("http://api.wunderground.com/api/a657d7d2ba430b38/forecast10day/q/ID/mugassari.json");   
-    $json_a = json_decode($json_string);
+
+	echo "<center><h1>Ramalan cuaca 12 Jam ke depan</h1></center>
+
+	<table cellspacing='0' >
+		<thead>
+			<tr>
+				<th width= 85px>Jam</th>
+				<th width= 50px>Temp</th>
+				<th width= 50px>Pict</th>
+				<th width= 200px>Kondisi</th>
+				<th>Kec Angin</th>
+				<th width= 50px>Arah Angin</th>
+			</tr>
+		</thead>";
+		
+for($tm=0;$tm<=12;$tm++){
 	
-	$json_string2 = file_get_contents("http://api.wunderground.com/api/47e99b8cefa287ed/conditions/q/ID/mugassari.json");   
-    $json_b = json_decode($json_string2);
-       
-	   // variabel
-    $periode = $json_a->{"forecast"}->{"txt_forecast"}->forecastday[0]->{'period'};
-    $png = $json_a->{'forecast'}->{'txt_forecast'}->forecastday[0]->{'icon'};
-    $hari   = $json_a->{'forecast'}->{'txt_forecast'}->forecastday[0]->{'title'};
-	$infor  = $json_a->{'forecast'}->{'txt_forecast'}->forecastday[0]->{'fcttext'};
-	$daerah  = $json_b->{'current_observation'}->{'display_location'}->{'city'};
-	$Kota  = $json_b->{'current_observation'}->{'observation_location'}->{'city'};
-    $Neg  = $json_b->{'current_observation'}->{'display_location'}->{'state_name'};
-    
+		    $json_string2 = file_get_contents("http://api.wunderground.com/api/47e99b8cefa287ed/hourly/q/ID/mugassari.json");   
+			$json_b = json_decode($json_string2);
 
-        //print
+			// variabel
+			$jam = $json_b->hourly_forecast[$tm]->{'FCTTIME'}->{'civil'};
+			$temp = $json_b->hourly_forecast[$tm]->{'temp'}->{'metric'};
+			$png2 = $json_b->hourly_forecast[$tm]->{'icon'};
+			$cont = $json_b->hourly_forecast[$tm]->{'condition'};
+			$spda = $json_b->hourly_forecast[$tm]->{'wspd'}->{'metric'};
+			$arha = $json_b->hourly_forecast[$tm]->{'wdir'}->{'dir'};
+			
+			
+			
 
-	echo "<h3>Forecest in ${daerah}, ${Kota} ${Neg} </h3>";
-    echo "<br>";
-    echo "<img src='http://icons.wxug.com/i/c/k/" . $png . ".gif'><br/>";
-    echo "Day  : ${hari}";
-    echo "<br>";
-	echo "Date : ".date("Y/m/d")."<br>";
-    echo "Information :<br> - ${infor} \n";
-	echo "<br>";
+echo "
+	<table cellspacing='0'>
+		<tbody>
+			<tr>
+				<td width= 100px>$jam</td>
+				<td width= 50px>${temp} <sup>o</sup>C</td>
+				<td><img src='http://icons.wxug.com/i/c/k/" . $png2 . ".gif'></td>
+				<td width= 200px>$cont</td>
+				<td width= 80px>${spda} Km/h</td>
+				<td width= 50px>$arha</td>
+			</tr>
+		</tbody>
+	</table>";									
+	}
 
-	if ($png == "clear")		{
-		echo " - You will be safe to go college, because the weather is sunny today";
-									}
-		else 						{
-		echo " - You need to bring a coat / jacket, umbrella and raincoat when going to college";
-									}
 ?>
-</div>
+
+
+</body>
+</html>
